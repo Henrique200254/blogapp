@@ -10,7 +10,10 @@ router.get('/posts', function(req, res){
 })
 
 router.get('/categorias', function(req, res){
-   res.send("Página de categorias")
+   res.render("admin/categorias")
 })
 
+router.get("/categorias/add", function (req,res) {
+   res.render("admin/addcategorias")
+})
 export default router
