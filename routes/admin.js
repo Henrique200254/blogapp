@@ -1,5 +1,8 @@
 import express from "express"
 const router = express.Router()
+import mongoose from "mongoose"
+import Categorias from "../models/Categoria.js"
+const Categoria = mongoose.model("categorias")
 
 router.get('/', function(req,res){
    res.render("admin/index")
@@ -15,5 +18,18 @@ router.get('/categorias', function(req, res){
 
 router.get("/categorias/add", function (req,res) {
    res.render("admin/addcategorias")
+})
+
+router.post("/categorias/nova", (req,res) => {
+   const novaCategoria = {
+      nome: req.body.nome,
+      slug: req.body.slug
+   }
+
+   new Categoria(novaCategoria).save().then(() => {
+      console.log("Categoria salva com sucesso!")
+   }).catch((erro) => {
+      console.log("Erro ao salvar categoria! "+ erro)
+   })
 })
 export default router
