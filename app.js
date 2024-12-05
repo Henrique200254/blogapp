@@ -11,7 +11,9 @@ import session from "express-session"
 import flash from "connect-flash"
 import Postagens from "./models/Postagem.js"
 const Postagem = mongoose.model("postagens")
-
+import Categorias from "./models/Categoria.js"
+const Categoria = mongoose.model("categorias")
+import usuarios from "./routes/usuario.js"
 
 // Configurações
    // Sessão
@@ -79,9 +81,36 @@ const Postagem = mongoose.model("postagens")
         })
     })
 
-    app.get("/posts", (req,res) => {
-      res.send("Lista Posts")
+    app.get("/categorias",(req,res) => {
+        Categoria.find().lean().then((categorias) => {
+            res.render("categorias/index", {categorias: categorias})
+        }).catch((erro) => {
+           req.flash("error_msg", "Houve um erro interno ao listar as categorias")
+           res.redirect("/")
+        })
     })
+
+    app.get("/categorias/:slug", (req,res) => {
+       Categoria.findOne({slug: req.params.slug}).lean().then((categoria) => {
+            if(categoria){
+               Postagem.find({categoria: categoria._id}).lean().then((postagens) => {
+                    res.render("categorias/postagens", {postagens: postagens, categoria: categoria})
+               }).catch((erro) => {
+                  req.flash("error_msg", "Houve um erro ao listar os posts")
+                  res.redirect("/")
+               })
+            }else{
+              req.flash("error_msg", "Esta categoria não existe")
+              res.redirect("/")
+            }
+       }).catch((erro) => {
+          req.flash("error_msg", "Houve um erro interno ao carrgear a página desta categoria")
+          res.redirect("/")
+       })
+    })
+
+    app.use("/usuarios", usuarios)
+
 //Outros
 const Port = 8081
 app.listen(Port, function() {
