@@ -10,7 +10,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "destination": "/app.js"
+            "destination": "blogapp/app.js"
         }
     ]
 }
