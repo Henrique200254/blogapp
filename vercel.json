@@ -3,15 +3,15 @@
         "version": 2,
         "builds": [
             {
-                "src": "blogapp/app.js",
+                "src": "app.js",
                 "use": "@vercel/node"
             }
         ],
     
         "routes": [
             {
-                "src": "(.*)",
-                "dest": "blogapp/app.js"
+                "src": "/(.*)",
+                "dest": "app.js"
             }
         ]
     }
