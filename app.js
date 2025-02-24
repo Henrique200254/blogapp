@@ -119,7 +119,7 @@ import passport from "passport"
     app.use("/usuarios", usuarios)
 
 //Outros
-const Port = 8081
+const Port = process.env.PORT || 8081
 app.listen(Port, function() {
     console.log("Servidor rodando! ")
 }) 
