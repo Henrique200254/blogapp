@@ -14,19 +14,27 @@ const Postagem = mongoose.model("postagens")
 import Categorias from "./models/Categoria.js"
 const Categoria = mongoose.model("categorias")
 import usuarios from "./routes/usuario.js"
+import auth from "./config/auth.js"
+import passport from "passport"
 
 // Configurações
    // Sessão
       app.use(session({
-         secret: "cursodenode",
+         secret: "Nodejs",
          resave: true,
          saveUninitialized: true
       }))
+
+      app.use(passport.initialize())
+      app.use(passport.session())
+      auth(passport)
       app.use(flash())
    // Middleware
       app.use((req,res,next) => {
           res.locals.success_msg = req.flash("success_msg")
           res.locals.error_msg = req.flash("error_msg")
+          res.locals.error = req.flash("error")
+          res.locals.user = req.user || null
           next()
       })   
    //Body parser
@@ -38,7 +46,7 @@ import usuarios from "./routes/usuario.js"
       app.set('views', './views')
    //Mongoose
       mongoose.Promise = global.Promise
-      mongoose.connect("mongodb://localhost/blogapp").then(() => {
+      mongoose.connect("mongodb://127.0.0.1/blogapp").then(() => {
           console.log("Conectado ao Mongo")
       }).catch((erro) => {
           console.log("Erro ao se conectar: " + erro)
@@ -47,7 +55,6 @@ import usuarios from "./routes/usuario.js"
    app.use(express.static(path.join(__dirname,"public")))
 
    app.use((req,res,next) => {
-       console.log("Oi eu sou um middleware")
        next()
    })
 // Rotas
