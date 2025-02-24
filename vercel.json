@@ -1,16 +1,9 @@
 {
     "version": 2,
-    "builds": [
+    "rewrites": [
         {
-            "src": "blogapp/app.js",
-            "use": "@vercel/node"
-        }
-    ],
-
-    "routes": [
-        {
-            "src": "(.*)",
-            "dest": "blogapp/app.js"
+            "sources": "/(.*)",
+            "destination": "/blogapp"
         }
     ]
 }
