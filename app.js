@@ -22,7 +22,11 @@ import passport from "passport"
       app.use(session({
          secret: "Nodejs",
          resave: true,
-         saveUninitialized: true
+         saveUninitialized: true,
+         cookie: {
+            secure:false,
+            maxAge: 15 * 60 * 1000,
+         },
       }))
 
       app.use(passport.initialize())
