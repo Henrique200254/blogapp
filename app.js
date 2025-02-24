@@ -63,15 +63,29 @@ import passport from "passport"
    })
 // Rotas
     app.use('/admin', admin)
-    app.get("/", (req,res) => {
-      Postagem.find().lean().populate("categoria").sort({data: "desc"}).then((postagens) => {
-         res.render("index", {postagens: postagens})
-      }).catch((erro) => {
-         req.flash("error_msg", "Houve um erro interno")
-         res.redirect("/404")
-      })
-      
-    })
+    app.get("/", (req, res) => {
+      // Verifica se a sessão já foi criada e incrementa o contador de visualizações
+      if (!req.session.views) {
+        req.session.views = 0;  // Inicializa a variável de sessões se ainda não existir
+      }
+      req.session.views++;  // Incrementa a cada vez que a página for acessada
+    
+      // Log para verificar a quantidade de acessos (opcional)
+      console.log(`Número de acessos: ${req.session.views}`);
+    
+      // Busca as postagens do banco de dados e renderiza a página principal
+      Postagem.find()
+        .lean()
+        .populate("categoria")
+        .sort({ data: "desc" })
+        .then((postagens) => {
+          res.render("index", { postagens: postagens, views: req.session.views });
+        })
+        .catch((erro) => {
+          req.flash("error_msg", "Houve um erro interno");
+          res.redirect("/404");
+        });
+    });
 
 
     app.get("/404", (req,res) => {
