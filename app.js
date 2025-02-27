@@ -50,7 +50,10 @@ import passport from "passport"
       app.set('views', './views')
    //Mongoose
       mongoose.Promise = global.Promise
-      mongoose.connect("mongodb://127.0.0.1/blogapp").then(() => {
+      mongoose.connect(process.env.MONGODB_URI, {
+         useNewUrlParser: true,
+         useUnifiedTopology: true
+       }).then(() => {
           console.log("Conectado ao Mongo")
       }).catch((erro) => {
           console.log("Erro ao se conectar: " + erro)
