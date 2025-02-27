@@ -30,7 +30,7 @@ router.get("/categorias/add", function (req,res) {
    res.render("admin/addcategorias")
 })
 
-router.post("/categorias/nova", eAdmin, (req,res) => {
+router.post("/categorias/nova", (req,res) => {
    
    var erros = []
 
@@ -65,7 +65,7 @@ router.post("/categorias/nova", eAdmin, (req,res) => {
    
 })
 
-router.get("/categorias/edit/:id", eAdmin, (req,res) => {
+router.get("/categorias/edit/:id", (req,res) => {
    Categoria.findOne({_id: req.params.id}).lean().then((categoria) => {
       res.render("admin/editcategorias", {categoria: categoria})
    }).catch((erro) => {
@@ -75,7 +75,7 @@ router.get("/categorias/edit/:id", eAdmin, (req,res) => {
    
 })
 
-router.post("/categorias/edit", eAdmin, (req,res) => {
+router.post("/categorias/edit", (req,res) => {
    Categoria.findOne({_id: req.body.id}).then( (categoria) => {
 
       categoria.nome = req.body.nome
@@ -96,7 +96,7 @@ router.post("/categorias/edit", eAdmin, (req,res) => {
    
 })
 
-router.post("/categorias/deletar", eAdmin, (req,res) => {
+router.post("/categorias/deletar", (req,res) => {
    Categoria.deleteOne({_id: req.body.id}).then(() => {
       req.flash("success_msg", "Categoria deletada com sucesso!")
       res.redirect("/admin/categorias")
