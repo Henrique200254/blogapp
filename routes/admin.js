@@ -8,7 +8,7 @@ const Postagem = mongoose.model("postagens")
 import eAdmin from "../helpers/eAdmin.js"
 
 
-router.get('/', eAdmin, function(req,res){
+router.get('/', function(req,res){
    res.render("admin/index")
 })
 
@@ -16,7 +16,7 @@ router.get('/posts', eAdmin, function(req, res){
    res.send("Página de posts")
 })
 
-router.get('/categorias', eAdmin, function(req, res){
+router.get('/categorias', function(req, res){
    Categoria.find().lean().sort({date: "desc"}).then((categorias) => {
       res.render("admin/categorias", {categorias: categorias})
    }).catch((erro) => {
@@ -26,7 +26,7 @@ router.get('/categorias', eAdmin, function(req, res){
    
 })
 
-router.get("/categorias/add", eAdmin, function (req,res) {
+router.get("/categorias/add", function (req,res) {
    res.render("admin/addcategorias")
 })
 
