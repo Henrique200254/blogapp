@@ -52,7 +52,8 @@ import passport from "passport"
       mongoose.Promise = global.Promise
       mongoose.connect(process.env.MONGODB_URI, {
          useNewUrlParser: true,
-         useUnifiedTopology: true
+         useUnifiedTopology: true,
+         dbName: 'blogapp'
        }).then(() => {
           console.log("Conectado ao Mongo")
       }).catch((erro) => {
