@@ -49,8 +49,11 @@ import passport from "passport"
       app.set('view engine', 'handlebars')
       app.set('views', './views')
    //Mongoose
+   
+   const mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/blogapp';
+
       mongoose.Promise = global.Promise
-      mongoose.connect(process.env.MONGODB_URI, {
+      mongoose.connect(mongoURI, {
          useNewUrlParser: true,
          useUnifiedTopology: true,
          dbName: 'blogapp'
